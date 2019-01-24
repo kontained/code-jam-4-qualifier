@@ -8,6 +8,7 @@ Requirements:
     Python 3.
 """
 import tkinter as tk
+from launch_helper import LaunchHelper
 
 
 class RocketShipControlPanel(tk.Frame):
@@ -16,9 +17,12 @@ class RocketShipControlPanel(tk.Frame):
         self.master = master
         self.pack()
 
+        self.countdown = LaunchHelper()
         self.pilot = None
         self.pilot_label = None
-        self.launch_button = Null
+        self.password = None
+        self.password_label = None
+        self.launch_button = None
 
     def create_form(self):
         """
@@ -26,7 +30,7 @@ class RocketShipControlPanel(tk.Frame):
         and buttons when called.
         """
 
-        self.pilot_label = tkinter.Label(
+        self.pilot_label = tk.Label(
             self,
             text="Pilot: ",
         )
@@ -34,8 +38,20 @@ class RocketShipControlPanel(tk.Frame):
             self,
             width=30,
         )
-        self.pilot_label.pack(side=TOP)
+        self.pilot_label.pack(side=tk.TOP)
         self.pilot.pack(side=tk.TOP)
+
+        self.password_label = tk.Label(
+            self,
+            text="Pilot: ",
+        )
+        self.password = tk.Entry(
+            self,
+            width=30,
+            show='*'
+        )
+        self.password_label.pack(side=tk.TOP)
+        self.password.pack(side=tk.TOP)
 
         self.launch_button = tk.Button(
             self,
@@ -54,9 +70,14 @@ class RocketShipControlPanel(tk.Frame):
         If the username or the password are blank, this
         callback should not do anything.
         """
+        if not self.pilot.get() or not self.password.get():
+            return
 
-        raise NotImplementedError
+        self.countdown.increment_countdown()
+        self.launch_button['text'] = self.countdown.get_countdown_text()
+
 
 root = tk.Tk()
 app = RocketShipControlPanel(master=root)
+app.create_form()
 app.mainloop()
