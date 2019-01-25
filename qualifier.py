@@ -43,7 +43,7 @@ class RocketShipControlPanel(tk.Frame):
 
         self.password_label = tk.Label(
             self,
-            text="Pilot: ",
+            text="Password: ",
         )
         self.password = tk.Entry(
             self,
